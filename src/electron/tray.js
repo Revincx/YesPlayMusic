@@ -1,6 +1,6 @@
 /* global __static */
 import path from 'path';
-import { app, nativeImage, Tray, Menu } from 'electron';
+import { app, nativeImage, Tray, Menu, nativeTheme } from 'electron';
 import { isLinux } from '@/utils/platform';
 
 function createMenuTemplate(win) {
@@ -197,8 +197,10 @@ class YPMTrayWindowsImpl {
 }
 
 export function createTray(win, eventEmitter) {
+  let iconTheme = nativeTheme.shouldUseDarkColors ? 'light' : 'dark';
+
   let icon = nativeImage
-    .createFromPath(path.join(__static, 'img/icons/menu@88.png'))
+    .createFromPath(path.join(__static, `img/icons/menu_${iconTheme}@88.png`))
     .resize({
       height: 20,
       width: 20,
