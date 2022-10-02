@@ -111,5 +111,5 @@ jobs:
       - uses: actions/upload-artifact@v3
         with:
           name: YesPlayMusic-linux
-          path: dist_electron/*.AppImage
+          path: dist_electron/*.pacman
           if-no-files-found: ignore
