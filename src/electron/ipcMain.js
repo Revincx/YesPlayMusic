@@ -5,6 +5,8 @@ import cloneDeep from 'lodash/cloneDeep';
 import shortcuts from '@/utils/shortcuts';
 import { createMenu } from './menu';
 import { isCreateTray, isMac } from '@/utils/platform';
+import { existsSync, writeFileSync } from 'fs';
+import { resolve } from 'path';
 
 const clc = require('cli-color');
 const log = text => {
@@ -233,6 +235,15 @@ export function initIpcMain(win, store, trayEventEmitter) {
       log('unregister global shortcut');
       globalShortcut.unregisterAll();
     }
+  });
+
+  ipcMain.on('saveLyric', (event, { name, lyric }) => {
+    let homePath = process.env.HOME;
+    let lyricFilePath = resolve(homePath, '.lyrics', name + '.lrc');
+    if (!existsSync(lyricFilePath)) {
+      writeFileSync(lyricFilePath, lyric);
+    }
+    win.webContents.send('saveLyricFinished');
   });
 
   ipcMain.on('playDiscordPresence', (event, track) => {

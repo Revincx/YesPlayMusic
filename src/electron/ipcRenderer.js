@@ -88,6 +88,13 @@ export function ipcRenderer(vueInstance) {
     });
   });
 
+  ipcRenderer.on('settings', (event, { key, value }) => {
+    store.commit('updateSettings', {
+      key,
+      value,
+    });
+  });
+
   ipcRenderer.on('setPosition', (event, position) => {
     player._howler.seek(position);
   });

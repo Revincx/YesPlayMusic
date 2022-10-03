@@ -32,6 +32,7 @@ import express from 'express';
 import expressProxy from 'express-http-proxy';
 import Store from 'electron-store';
 import { createMpris } from '@/electron/mpris';
+import { spawn } from 'child_process';
 const clc = require('cli-color');
 const log = text => {
   console.log(`${clc.blueBright('[background.js]')} ${text}`);
@@ -423,6 +424,19 @@ class Background {
       // create mpris
       if (isCreateMpris) {
         createMpris(this.window);
+      }
+
+      // try to start osdlyrics
+      if (this.store.get('settings.enableOsdlyricsSupport')) {
+        let osdlyricsProcess = spawn('osdlyrics');
+
+        osdlyricsProcess.on('error', err => {
+          log(`failed to start osdlyrics: ${err.message}`);
+        });
+
+        osdlyricsProcess.on('exit', (code, signal) => {
+          log(`osdlyrics process exited with code ${code}, signal ${signal}`);
+        });
       }
     });
 

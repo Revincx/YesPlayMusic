@@ -239,6 +239,28 @@
           </select>
         </div>
       </div>
+      <div v-if="isElectron && isLinux" class="item">
+        <div class="left">
+          <div class="title"> 启用 OSDLyrics 桌面歌词支持 </div>
+          <div class="description">
+            仅 Linux 下生效，开启后将会下载歌词文件到本地，并尝试在启动时拉起
+            <a target="_blank" href="https://github.com/osdlyrics/osdlyrics"
+              >OSDLyrics</a
+            >。
+          </div>
+        </div>
+        <div class="right">
+          <div class="toggle">
+            <input
+              id="enable-osdlyrics-support"
+              v-model="enableOsdlyricsSupport"
+              type="checkbox"
+              name="enable-osdlyrics-support"
+            />
+            <label for="enable-osdlyrics-support"></label>
+          </div>
+        </div>
+      </div>
 
       <section v-if="isElectron" class="unm-configuration">
         <h3>UnblockNeteaseMusic</h3>
@@ -959,6 +981,17 @@ export default {
       set(value) {
         this.$store.commit('updateSettings', {
           key: 'showLyricsTime',
+          value,
+        });
+      },
+    },
+    enableOsdlyricsSupport: {
+      get() {
+        return this.settings.enableOsdlyricsSupport;
+      },
+      set(value) {
+        this.$store.commit('updateSettings', {
+          key: 'enableOsdlyricsSupport',
           value,
         });
       },

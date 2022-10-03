@@ -3,11 +3,11 @@ import { getArtist } from '@/api/artist';
 import { trackScrobble, trackUpdateNowPlaying } from '@/api/lastfm';
 import { fmTrash, personalFM } from '@/api/others';
 import { getPlaylistDetail, intelligencePlaylist } from '@/api/playlist';
-import { getMP3, getTrackDetail, scrobble } from '@/api/track';
+import { getLyric, getMP3, getTrackDetail, scrobble } from '@/api/track';
 import store from '@/store';
 import { isAccountLoggedIn } from '@/utils/auth';
 import { cacheTrackSource, getTrackSource } from '@/utils/db';
-import { isCreateMpris, isCreateTray } from '@/utils/platform';
+import { isCreateMpris, isCreateTray, isLinux } from '@/utils/platform';
 import { Howl, Howler } from 'howler';
 import shuffle from 'lodash/shuffle';
 import { decode as base642Buffer } from '@/utils/base64';
@@ -480,6 +480,25 @@ export default class {
         return source ?? this._getAudioSourceFromUnblockMusic(track);
       });
   }
+  async saveLyricsFile(track) {
+    if (!isLinux) return;
+    if (!store.state.settings.enableOsdlyricsSupport)
+      return this._updateMpris(track);
+    let lyricName = track.ar.map(ar => ar.name).join(', ') + '-' + track.name;
+    let lyricData = await getLyric(track.id);
+    if (!lyricData.lrc.lyric) {
+      return this._updateMpris(track);
+    }
+
+    ipcRenderer.send('saveLyric', {
+      name: lyricName,
+      lyric: lyricData.lrc.lyric,
+    });
+
+    ipcRenderer.on('saveLyricFinished', () => {
+      this._updateMpris(track);
+    });
+  }
   _replaceCurrentTrack(
     id,
     autoplay = true,
@@ -490,6 +509,7 @@ export default class {
     }
     return getTrackDetail(id).then(data => {
       const track = data.songs[0];
+      this.saveLyricsFile(track);
       this._currentTrack = track;
       this._updateMediaSessionMetaData(track);
       return this._replaceCurrentTrackAudio(
@@ -519,6 +539,7 @@ export default class {
         if (isCacheNextTrack) {
           this._cacheNextTrack();
         }
+        this._updateMediaSessionMetaData(track);
         return replaced;
       } else {
         store.dispatch('showToast', `无法播放 ${track.name}`);
@@ -589,12 +610,9 @@ export default class {
       });
     }
   }
-  _updateMediaSessionMetaData(track) {
-    if ('mediaSession' in navigator === false) {
-      return;
-    }
+  _genMetadata(track) {
     let artists = track.ar.map(a => a.name);
-    const metadata = {
+    return {
       title: track.name,
       artist: artists.join(','),
       album: track.al.name,
@@ -613,11 +631,19 @@ export default class {
       length: this.currentTrackDuration,
       trackId: this.current,
     };
-
-    navigator.mediaSession.metadata = new window.MediaMetadata(metadata);
+  }
+  _updateMpris(track) {
+    const metadata = this._genMetadata(track);
     if (isCreateMpris) {
       ipcRenderer?.send('metadata', metadata);
     }
+  }
+  _updateMediaSessionMetaData(track) {
+    if ('mediaSession' in navigator === false) {
+      return;
+    }
+    const metadata = this._genMetadata(track);
+    navigator.mediaSession.metadata = new window.MediaMetadata(metadata);
   }
   _updateMediaSessionPositionState() {
     if ('mediaSession' in navigator === false) {

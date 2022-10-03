@@ -28,6 +28,7 @@ export function createMpris(window) {
   });
 
   ipcMain.on('metadata', (e, metadata) => {
+    player.getPosition = () => 0;
     player.metadata = {
       'mpris:trackid': player.objectPath('track/' + metadata.trackId),
       'mpris:artUrl': metadata.artwork[0].src,
