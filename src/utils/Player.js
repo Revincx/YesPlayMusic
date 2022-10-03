@@ -509,7 +509,6 @@ export default class {
     }
     return getTrackDetail(id).then(data => {
       const track = data.songs[0];
-      this.saveLyricsFile(track);
       this._currentTrack = track;
       this._updateMediaSessionMetaData(track);
       return this._replaceCurrentTrackAudio(
@@ -643,6 +642,7 @@ export default class {
       return;
     }
     const metadata = this._genMetadata(track);
+    this.saveLyricsFile(track);
     navigator.mediaSession.metadata = new window.MediaMetadata(metadata);
   }
   _updateMediaSessionPositionState() {
