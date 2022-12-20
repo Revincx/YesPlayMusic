@@ -1837,9 +1837,9 @@
   resolved "https://registry.yarnpkg.com/@unblockneteasemusic/rust-napi-win32-x64-msvc/-/rust-napi-win32-x64-msvc-0.3.0.tgz#53242eea5ee6af30fa68330be752b030be72c1f6"
   integrity sha512-ACmTzPih91FmVt87BIdGhiKVbjKHNawRj5vgHcFlPX6KQ8NrxSigXXNs0/JWWDvAK9BLpOmeCtieXHnMdv+YQQ==
 
-"@unblockneteasemusic/rust-napi@^0.3.0-pre.1":
+"@unblockneteasemusic/rust-napi@^0.3.0":
   version "0.3.0"
-  resolved "https://registry.yarnpkg.com/@unblockneteasemusic/rust-napi/-/rust-napi-0.3.0.tgz#607562e51b0bd50cfee19fb23bf7eff139296bda"
+  resolved "https://registry.npmmirror.com/@unblockneteasemusic/rust-napi/-/rust-napi-0.3.0.tgz#607562e51b0bd50cfee19fb23bf7eff139296bda"
   integrity sha512-UA20K1T72XkFFoaY7D+XNqlX4zakrGDsrIsChs92e4qqhzu2mPJWNYV/cS2xOWFUbeFve84Hz7Kwl/OocjTDpQ==
   optionalDependencies:
     "@unblockneteasemusic/rust-napi-android-arm-eabi" "0.3.0"
@@ -2397,10 +2397,10 @@
   resolved "https://registry.yarnpkg.com/@xtuc/long/-/long-4.2.2.tgz#d291c6a4e97989b5c61d9acf396ae4fe133a718d"
   integrity sha512-NuHqBY1PB/D8xU6s/thBgOAiAP7HOYDQ32+BFZILJ8ivkUkAHQnWfn6WhL79Owj1qmUnoN/YPhktdIoucipkAQ==
 
-NeteaseCloudMusicApi@^4.8.2:
-  version "4.8.2"
-  resolved "https://registry.npmmirror.com/NeteaseCloudMusicApi/-/NeteaseCloudMusicApi-4.8.2.tgz#d2ed8a6858a977613f2fae9851e0f1e854e2ddc4"
-  integrity sha512-2IuayTyNwqq6rSX0EYzAuxMtrADL0iNjdsbbrVoTJ58wyYPGCp8Dp9iQxRl71Mmrdbj8eJbPqow7jhOlpdyDDA==
+NeteaseCloudMusicApi@^4.8.4:
+  version "4.8.4"
+  resolved "https://registry.npmmirror.com/NeteaseCloudMusicApi/-/NeteaseCloudMusicApi-4.8.4.tgz#0b7014b0d490423cefb8cabc2d89074e0814c379"
+  integrity sha512-PUrbSB/gcIFmsitzxJ5UO1RAjR8FQGQiI6zLBqf0D1+zI8baSEQhw6IxGNoyaeraMSzg7d2k5W05vGcach7qTw==
   dependencies:
     axios "^0.24.0"
     express "^4.17.1"
