@@ -90,26 +90,24 @@ jobs:
           # (No need to define this secret in the repo settings)
           github_token: ${{ secrets.github_token }}
 
-          # If the commit is tagged with a version (e.g. "v1.0.0"),
-          # release the app after building
-          release: ${{ startsWith(github.ref, 'refs/tags/v') }}
-
           use_vue_cli: true
 
-      - uses: actions/upload-artifact@v3
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v3
         with:
-          name: YesPlayMusic-mac
-          path: dist_electron/*-universal.dmg
+          name: YesPlayMusic-${{ runner.os }}
+          path: | 
+            dist_electron/yesplaymusic*
+            dist_electron/YesPlayMusic*
           if-no-files-found: ignore
 
-      - uses: actions/upload-artifact@v3
+      - name: Upload Files to Release
+        uses: svenstaro/upload-release-action@v2
+        if: ${{ startsWith(github.ref, 'refs/tags/v') }}
         with:
-          name: YesPlayMusic-win
-          path: dist_electron/*Setup*.exe
-          if-no-files-found: ignore
-
-      - uses: actions/upload-artifact@v3
-        with:
-          name: YesPlayMusic-linux
-          path: dist_electron/*.AppImage
-          if-no-files-found: ignore
+          repo_token: ${{ secrets.github_token }}
+          file: dist_electron/[Yy]es[Pp]lay[Mm]usic*
+          tag: ${{ github.ref }}
+          overwrite: true
+          file_glob: true
+          prerelease: true
