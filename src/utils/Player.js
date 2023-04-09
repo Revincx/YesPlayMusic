@@ -199,6 +199,9 @@ export default class {
   set progress(value) {
     if (this._howler) {
       this._howler.seek(value);
+      if (isCreateMpris) {
+        ipcRenderer?.send('seeked', this._howler.seek());
+      }
     }
   }
   get isCurrentTrackLiked() {
@@ -836,7 +839,10 @@ export default class {
       this.play();
     }
   }
-  seek(time = null) {
+  seek(time = null, sendMpris = true) {
+    if (isCreateMpris && sendMpris) {
+      ipcRenderer?.send('seeked', this._howler.seek());
+    }
     if (time !== null) {
       this._howler?.seek(time);
       if (this._playing)
