@@ -486,7 +486,10 @@ export default class {
     if (!isLinux) return;
     if (!store.state.settings.enableOsdlyricsSupport)
       return this._updateMpris(track);
-    let lyricName = track.ar.map(ar => ar.name).join(', ') + '-' + track.name;
+    let lyricName =
+      track.ar.map(ar => ar.name).join(', ') +
+      '-' +
+      track.name.replace('/', '_');
     let lyricData = await getLyric(track.id);
     if (!lyricData.lrc.lyric) {
       return this._updateMpris(track);
