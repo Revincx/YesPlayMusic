@@ -840,13 +840,13 @@ export default class {
     }
   }
   seek(time = null, sendMpris = true) {
-    if (isCreateMpris && sendMpris) {
-      ipcRenderer?.send('seeked', this._howler.seek());
+    if (isCreateMpris && sendMpris && time) {
+      ipcRenderer?.send('seeked', time);
     }
     if (time !== null) {
       this._howler?.seek(time);
       if (this._playing)
-        this._playDiscordPresence(this._currentTrack, this.seek());
+        this._playDiscordPresence(this._currentTrack, this.seek(null, false));
     }
     return this._howler === null ? 0 : this._howler.seek();
   }
