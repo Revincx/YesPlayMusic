@@ -238,6 +238,8 @@ export function initIpcMain(win, store, trayEventEmitter) {
   });
 
   ipcMain.on('saveLyric', (event, { name, lyric }) => {
+    name = name.replace(/\//g, '_');
+
     let homePath = process.env.HOME;
     let lyricFilePath = resolve(homePath, '.lyrics', name + '.lrc');
     if (!existsSync(resolve(homePath, '.lyrics'))) {
