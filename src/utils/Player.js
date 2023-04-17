@@ -343,7 +343,7 @@ export default class {
         this._playNextTrack(this._isPersonalFM);
       } else if (errCode === 4) {
         // code 4: MEDIA_ERR_SRC_NOT_SUPPORTED
-        store.dispatch('showToast', '无法播放：不支持的音频格式');
+        store.dispatch('showToast', `无法播放: 不支持的音频格式`);
         this._playNextTrack(this._isPersonalFM);
       } else {
         const t = this.progress;
