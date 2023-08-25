@@ -490,15 +490,15 @@ export default class {
     if (!isLinux) return;
     if (!store.state.settings.enableOsdlyricsSupport)
       return this._updateMpris(track);
-    let lyricName = track.ar.map(ar => ar.name).join(', ') + '-' + track.name;
+
     let lyricData = await getLyric(track.id);
     if (!lyricData.lrc || !lyricData.lrc.lyric) {
       return this._updateMpris(track);
     }
 
-    ipcRenderer.send('saveLyric', {
-      name: lyricName,
-      lyric: lyricData.lrc.lyric,
+    ipcRenderer.send('sendLyrics', {
+      track,
+      lyrics: lyricData.lrc.lyric,
     });
 
     ipcRenderer.on('saveLyricFinished', () => {

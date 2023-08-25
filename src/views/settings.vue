@@ -1283,9 +1283,6 @@ export default {
       clearDB().then(() => {
         this.countDBSize();
       });
-      if (this.settings.enableOsdlyricsSupport) {
-        ipcRenderer.send('cleanSavedLyrics');
-      }
     },
     lastfmConnect() {
       lastfmAuth();

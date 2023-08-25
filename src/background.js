@@ -32,6 +32,7 @@ import express from 'express';
 import expressProxy from 'express-http-proxy';
 import Store from 'electron-store';
 import { createMpris } from '@/electron/mpris';
+import { createDbus } from '@/electron/osdDbus';
 import { spawn } from 'child_process';
 const clc = require('cli-color');
 const log = text => {
@@ -428,6 +429,7 @@ class Background {
 
       // try to start osdlyrics
       if (this.store.get('settings.enableOsdlyricsSupport')) {
+        await createDbus(this.window);
         let osdlyricsProcess = spawn('osdlyrics');
 
         osdlyricsProcess.on('error', err => {
