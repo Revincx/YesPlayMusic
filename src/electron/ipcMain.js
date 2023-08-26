@@ -135,43 +135,6 @@ function parseSourceStringToList(executor, sourceString) {
     });
 }
 
-/**
- * Write lyrics into local file
- *
- * @param {string} name
- * @param {string} content
- */
-async function writeLyric(name, content) {
-  name = name.replaceAll('/', '⁄');
-
-  const lyricsDir = resolve(process.env.HOME, '.lyrics');
-  const destination = resolve(lyricsDir, name + '.lrc');
-
-  try {
-    await writeFile(destination, content);
-  } catch (e) {
-    switch (e.code) {
-      // ENOENT (no such file or directory)，
-      case 'ENOENT':
-        await mkdir(lyricsDir, { recursive: true });
-
-        // Try again. Should be succeed.
-        return await writeLyric(name, content);
-      // ENOTDIR (not a directory), 指 TMPDIR 有問題。
-      case 'ENOTDIR':
-        // 砍掉 TMPDIR「檔案」。
-        await rm(lyricsDir);
-
-        // 預期接下來的流程是 ENOENT 建立資料夾的流程。
-        return await writeLyric(name, content);
-      default:
-        log(e);
-        break;
-    }
-    log(e);
-  }
-}
-
 export function initIpcMain(win, store, trayEventEmitter) {
   // WIP: Do not enable logging as it has some issues in non-blocking I/O environment.
   // UNM.enableLogging(UNM.LoggingType.ConsoleEnv);
@@ -346,12 +309,6 @@ export function initIpcMain(win, store, trayEventEmitter) {
     createMenu(win, store);
     globalShortcut.unregisterAll();
     registerGlobalShortcut(win, store);
-  });
-
-  ipcMain.on('saveLyric', async (_, { name, lyric }) => {
-    await writeLyric(name, lyric);
-
-    return win.webContents.send('saveLyricFinished');
   });
 
   if (isCreateTray) {
