@@ -254,15 +254,16 @@
       <div v-if="isElectron && isLinux" class="item">
         <div class="left">
           <div class="title">
-            启用
+            {{ $t('settings.unm.enable') }}
             <a target="_blank" href="https://github.com/osdlyrics/osdlyrics"
               >OSDLyrics</a
             >
-            桌面歌词支持
+            {{ $t('settings.enableOsdlyricsSupport.title') }}
           </div>
           <div class="description">
-            仅 Linux 下生效，开启后将会下载歌词文件到本地，并尝试在启动时拉起
-            OSDLyrics。
+            {{ $t('settings.enableOsdlyricsSupport.desc1') }}
+            <br />
+            {{ $t('settings.enableOsdlyricsSupport.desc2') }}
           </div>
         </div>
         <div class="right">
