@@ -5,8 +5,6 @@ import cloneDeep from 'lodash/cloneDeep';
 import shortcuts from '@/utils/shortcuts';
 import { createMenu } from './menu';
 import { isCreateTray, isMac } from '@/utils/platform';
-import { resolve } from 'path';
-import { mkdir, rm, writeFile } from 'fs/promises';
 
 const clc = require('cli-color');
 const log = text => {
