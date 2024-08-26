@@ -625,9 +625,9 @@ export default class {
       album: track.al.name,
       artwork: [
         {
-          src: track.al.picUrl + '?param=224y224',
+          src: track.al.picUrl + '?param=1024y1024',
           type: 'image/jpg',
-          sizes: '224x224',
+          sizes: '1024x1024',
         },
         {
           src: track.al.picUrl + '?param=512y512',
