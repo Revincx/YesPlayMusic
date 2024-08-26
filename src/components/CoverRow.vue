@@ -50,7 +50,7 @@ export default {
   props: {
     items: { type: Array, required: true },
     type: { type: String, required: true },
-    subText: { type: String, default: 'null' },
+    subText: { type: String, default: 'none' },
     subTextFontSize: { type: String, default: '16px' },
     showPlayCount: { type: Boolean, default: false },
     columnNumber: { type: Number, default: 5 },
@@ -96,7 +96,7 @@ export default {
       return this.type === 'playlist' && item.privacy === 10;
     },
     isExplicit(item) {
-      return this.type === 'album' && item.mark === 1056768;
+      return this.type === 'album' && (item.mark & 1048576) === 1048576;
     },
     getTitleLink(item) {
       return `/${this.type}/${item.id}`;
