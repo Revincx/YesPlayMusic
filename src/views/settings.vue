@@ -1566,11 +1566,13 @@ input[type='number'] {
   -moz-appearance: textfield;
 }
 
-#proxy-form {
+#proxy-form,
+#real-ip {
   display: flex;
   align-items: center;
 }
-#proxy-form.disabled {
+#proxy-form.disabled,
+#real-ip.disabled {
   opacity: 0.47;
   button:hover {
     transform: unset;
