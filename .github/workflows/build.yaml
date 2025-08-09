@@ -94,13 +94,10 @@ jobs:
           use_vue_cli: true
 
       - name: Upload Artifacts
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: YesPlayMusic-${{ runner.os }}
-          path: | 
-            dist_electron/yesplaymusic*
-            dist_electron/YesPlayMusic*
-          if-no-files-found: ignore
+          path: dist_electron/[Yy]es[Pp]lay[Mm]usic*
 
       - name: Upload Files to Release
         uses: svenstaro/upload-release-action@v2
